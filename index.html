@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عقارات الشعب مأرب | الأراضي والبيوت والشقق في مأرب</title>
+    <meta name="description" content="منصة عقارات الشعب مأرب - أفضل موقع عقاري للبحث عن الأراضي السكنية والتجارية، البيوت، الفلل، والشقق للبيع أو الإيجار في محافظة مأرب. تصفح عروضنا الحصرية الآن.">
+    <meta name="keywords" content="عقارات مأرب, أراضي للبيع في مأرب, شقق للإيجار مأرب, بيوت للبيع مأرب, عقارات الشعب, مأرب, بيع وشراء عقارات اليمن, مكتب عقارات مأرب">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="عقارات الشعب مأرب | دليلك العقاري الأول">
+    <meta property="og:description" content="تصفح أحدث عروض الأراضي والشقق والبيوت في مأرب مباشرة من المالك.">
+    <meta property="og:image" content="assets/images/logo.png">
+    <meta property="og:url" content="https://example.com">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ar_YE">
+    <meta property="og:site_name" content="عقارات الشعب مأرب">
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="عقارات الشعب مأرب">
+    <meta name="twitter:description" content="تصفح أحدث عروض الأراضي والشقق في مأرب بتحديث مستمر.">
+    <meta name="twitter:image" content="assets/images/logo.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-72x72.png">
+    <link rel="apple-touch-icon" href="assets/icons/icon-192x192.png">
+    
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f2b46">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="عقارات الشعب">
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- زر تثبيت التطبيق PWA -->
+    <div id="installBanner" class="install-banner" style="display:none;">
+        <div class="install-content">
+            <span class="install-close" onclick="closeInstallBanner()">&times;</span>
+            <img src="assets/icons/icon-192x192.png" alt="تثبيت" width="50" height="50">
+            <div>
+                <strong>هل تريد تثبيت منصة عقارات الشعب على الشاشة؟</strong>
+                <p>لمتابعة أحدث عروض الأراضي والعقارات بمأرب فور نزولها</p>
+            </div>
+            <button id="installBtn" class="btn-primary">تثبيت المنصة</button>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="assets/images/logo.png" alt="عقارات الشعب مأرب" width="60" height="60">
+                <span class="store-name">عقارات الشعب مأرب</span>
+            </a>
+            <nav class="main-nav" id="mainNav">
+                <button class="nav-toggle" aria-label="القائمة" onclick="toggleMenu()">
+                    <span></span><span></span><span></span>
+                </button>
+                <ul>
+                    <li><a href="index.html" class="active">الرئيسية</a></li>
+                    <li><a href="products.html">العروض العقارية</a></li>
+                    <li><a href="about.html">من نحن</a></li>
+                    <li><a href="gallery.html">المعرض</a></li>
+                    <li><a href="contact.html">تواصل معنا</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>عقارات الشعب مأرب</h1>
+                <p>البوابة الأوثق والأسرع للبحث عن الأراضي السكنية والتجارية، الفلل، الشقق، والمحلات التجارية في مأرب. عروض حصرية وموثوقة قانونياً!</p>
+                <div class="hero-bghero-buttons">
+                    <a href="products.html" class="btn-primary">تصفح العقارات المتاحة</a>
+                    <a href="https://wa.me/967770569067" target="_blank" class="btn-whatsapp">
+                        <span width="24" height="24">
+                             تواصل عقاري مباشر 
+                        🗨️</span>
+
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories Section (تحويل الأقسام إلى تصنيفات عقارية مع الحفاظ على الفلترة البرمجية) -->
+       <!-- استبدل قسم التصنيفات في index.html بهذا الكود الاحترافي المدعوم بالأيقونات -->
+<section class="categories">
+    <div class="container">
+        <h2>تسوق حسب القسم العقاري</h2>
+        <div class="cat-grid">
+            <!-- أراضي سكنية وتجارية -->
+            <a href="products.html?category=men" class="cat-card">
+                <div class="cat-icon-wrapper">
+                    <svg viewBox="0 0 24 24" width="50" height="50" fill="none" stroke="#0f2b46" stroke-width="2">
+                        <path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6M14 7h2v2h-2zM14 11h2v2h-2zM8 11h2v2H8z"/>
+                    </svg>
+                </div>
+                <h3>أراضي سكنية وتجارية</h3>
+            </a>
+
+            <!-- شقق وعقارات للإيجار -->
+            <a href="products.html?category=women" class="cat-card">
+                <div class="cat-icon-wrapper">
+                    <svg viewBox="0 0 24 24" width="50" height="50" fill="none" stroke="#0f2b46" stroke-width="2">
+                        <path d="M3 21h18M3 7V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2M5 21V7h14v14M9 10h2v2H9zm0 4h2v2H9zm4-4h2v2h-2zm0 4h2v2h-2z"/>
+                    </svg>
+                </div>
+                <h3>شقق وعقارات للإيجار</h3>
+            </a>
+
+            <!-- بيوت وفلل للبيع -->
+            <a href="products.html?category=kids" class="cat-card">
+                <div class="cat-icon-wrapper">
+                    <svg viewBox="0 0 24 24" width="50" height="50" fill="none" stroke="#0f2b46" stroke-width="2">
+                        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                </div>
+                <h3>بيوت وفلل للبيع</h3>
+            </a>
+
+            <!-- العروض الحصرية -->
+            <a href="products.html?category=offers" class="cat-card">
+                <div class="cat-icon-wrapper">
+                    <svg viewBox="0 0 24 24" width="50" height="50" fill="none" stroke="#0f2b46" stroke-width="2">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                </div>
+                <h3>العروض الحصرية</h3>
+            </a>
+        </div>
+    </div>
+</section>
+
+
+        <!-- Featured Products (تضمين حاوية الـ Google Sheets كما هي برمجياً) -->
+        <section class="featured">
+            <div class="container">
+                <h2>عقارات مميزة وموصى بها</h2>
+                <div id="featuredProducts" class="product-grid">
+                    <!-- سيتم تحميلها تلقائياً من Google Sheets عبر ملف JS المربوط مسبقاً دون أي تغيير برمي -->
+                </div>
+            </div>
+        </section>
+
+        <!-- About Brief -->
+        <section class="about-brief">
+            <div class="container">
+                <div class="about-flex">
+                    <div class="about-text">
+                        <h2>من نحن</h2>
+                        <p>منصة عقارات الشعب مأرب هي الواجهة الاستثمارية العقارية الأولى في المحافظة. نقدم خدمات بيع وشراء وتسويق الأراضي والبيوت وإدارة الأملاك العقارية بشفافية تامة وبأعلى معايير الأمان القانوني. نسعد بزيارتكم لفرعنا الرئيسي في شارع الستين.</p>
+                        <a href="about.html" class="btn-secondary">اقرأ المزيد عن خدماتنا</a>
+                    </div>
+                    <img src="assets/images/about.jpg" alt="عقارات الشعب مأرب" class="about-img">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="index.html" class="footer-logo">
+                        <img src="assets/images/logo.png" alt="عقارات الشعب مأرب" width="50">
+                        <span>عقارات الشعب مأرب</span>
+                    </a>
+                    <p>أفضل منصة عقارية في مأرب. نوفر لكم أدق تفاصيل عروض الأراضي والبيوت لتسهيل استثماركم العقاري.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>روابط سريعة</h4>
+                    <ul>
+                        <li><a href="about.html">من نحن</a></li>
+                        <li><a href="products.html">العروض العقارية</a></li>
+                        <li><a href="contact.html">تواصل معنا</a></li>
+                        <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>تواصل معنا</h4>
+                    <p>شارع الستين، أمام بنك اليمن الدولي، مأرب</p>
+                    <p>واتساب الاستفسارات: <a href="https://wa.me/967770569067">770569067‬ 967+</a></p>
+                    <div class="social-links">
+                        <a href="https://facebook.com/store" target="_blank" title="فيسبوك">FB</a>
+                        <a href="https://maps.app.goo.gl/example" target="_blank" title="خرائط جوجل">Maps</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>جميع الحقوق محفوظة &copy; 2026 <a href="https://sparkon-alsheb.netlify.app/">عقارات الشعب مأرب</a></p>
+                <p class="developer">مُبرمج الموقع من الفريق التقني لمؤسسة الشعب للمقاولات العامة والتطوير العقاري - مأرب</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- زر واتساب العائم -->
+    <a href="https://wa.me/967770569067" class="floating-whatsapp" target="_blank" title="تواصل عقاري عبر واتساب">
+        <span  width="30" height="30" >🗨️</span>
+    </a>
+
+    <!-- Toast للإشعارات -->
+    <div id="toast" class="toast"></div>
+
+    <script src="js/main.js"></script>
+    
+    <!-- Schema.org تحسين السيو المحلي ليصبح نشاطاً عقارياً موثقاً -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "RealEstateAgent",
+        "name": "عقارات الشعب مأرب",
+        "image": "https://example.com/assets/images/logo.png",
+        "@id": "https://example.com",
+        "url": "https://example.com",
+        "telephone": "+967770569067",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "شارع الستين",
+            "addressLocality": "مأرب",
+            "addressCountry": "YE"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 15.4500,
+            "longitude": 45.3333
+        },
+        "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Saturday","Sunday","Monday","Tuesday","Wednesday","Thursday"],
+            "opens": "09:00",
+            "closes": "22:00"
+        },
+        "sameAs": [
+            "https://facebook.com/store",
+            "https://maps.app.goo.gl/example"
+        ]
+    }
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    <script>eruda.init();</script>
+</body>
+</html>

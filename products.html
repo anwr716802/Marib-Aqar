@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>العروض العقارية المتاحة بمأرب | عقارات الشعب</title>
+    <meta name="description" content="تصفح قائمة الأراضي والبيوت والشقق المعروضة للبيع أو الإيجار في مأرب عبر عقارات الشعب. فلاتر متقدمة للبحث.">
+    <meta name="keywords" content="عقارات مأرب, أراضي مأرب, شقق للإيجار مأرب, بيوت مأرب">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <span class="store-name">عقارات الشعب مأرب</span>
+            </a>
+        </div>
+    </header>
+    <main>
+        <section class="page-hero">
+            <h1>دليل العروض العقارية</h1>
+        </section>
+        <section class="container">
+            <!-- أزرار التصنيفات العقارية مع الاحتفاظ بنفس الـ data-category البرمجي -->
+            <div class="category-filters">
+                <button class="filter-btn active" data-category="all">كل العقارات</button>
+                <button class="filter-btn" data-category="men">أراضي سكنية وتجارية</button>
+                <button class="filter-btn" data-category="women">شقق وإيجارات</button>
+                <button class="filter-btn" data-category="kids">بيوت وفلل للبيع</button>
+                <button class="filter-btn" data-category="offers">عروض حصرية</button>
+            </div>
+            
+            <!-- شبكة العقارات (تم الإبقاء على المعرف ID كما هو ليعمل مع الجافا سكريبت) -->
+            <div id="allProducts" class="product-grid">
+                <!-- تحميل ديناميكي تلقائي من الجوجل شيت -->
+            </div>
+        </section>
+    </main>
+    <footer class="site-footer">...</footer>
+    <a href="https://wa.me/967770569067" class="floating-whatsapp">...</a>
+    
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAllProducts('all');
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    loadAllProducts(this.dataset.category);
+                });
+            });
+        });
+    </script>
+    
+    <!-- تحسين بيانات السيو المهيكلة لتلائم طبيعة العقارات -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "Place",
+        "name": "عقارات الشعب مأرب",
+        "description": "خدمات بيع وشراء وتأجير العقارات والأراضي في محافظة مأرب بأعلى موثوقية."
+    }
+    </script>
+</body>
+</html>
