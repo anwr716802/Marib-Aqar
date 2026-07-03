@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جاري التحقق...</title>
+    <meta name="robots" content="noindex, nofollow">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #f4f6f9;
+            color: #2c3e50;
+        }
+        .loader {
+            text-align: center;
+        }
+        .loader img {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="loader">
+        <img src="../assets/images/logo.png" alt="شعار المتجر">
+        <p>جاري التحقق من الجلسة...</p>
+    </div>
+
+    <script>
+        // التحقق من وجود جلسة صالحة
+        if (sessionStorage.getItem('adminAuth') === 'true') {
+            window.location.href = 'dashboard.html';
+        } else {
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

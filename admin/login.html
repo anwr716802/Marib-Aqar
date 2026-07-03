@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+    <title>تسجيل الدخول - لوحة التحكم</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="admin-login">
+    <form id="loginForm" onsubmit="login(event)">
+        <img src="../assets/images/logo.png" alt="شعار" width="80">
+        <h2>لوحة التحكم</h2>
+        <input type="password" id="password" placeholder="كلمة المرور" required>
+        <button type="submit">دخول</button>
+        <p id="error" style="color:red;"></p>
+    </form>
+    <script>
+        const ADMIN_PASSWORD = "admin123"; // يمكن تغييرها
+        function login(e) {
+            e.preventDefault();
+            const pass = document.getElementById('password').value;
+            if (pass === ADMIN_PASSWORD) {
+                sessionStorage.setItem('adminAuth', 'true');
+                window.location.href = 'dashboard.html';
+            } else {
+                document.getElementById('error').textContent = 'كلمة مرور غير صحيحة';
+            }
+        }
+    </script>
+</body>
+</html>

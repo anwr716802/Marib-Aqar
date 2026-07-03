@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم | إدارة المتجر</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        #debugArea {
+            margin: 20px; padding: 15px; background: #1e1e1e; color: #0f0;
+            border-radius: 8px; font-family: monospace; font-size: 0.85rem;
+            max-height: 250px; overflow-y: auto; white-space: pre-wrap; display: none;
+        }
+        #debugToggle {
+            position: fixed; bottom: 80px; left: 20px; background: #333; color: #fff;
+            border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; z-index: 2000;
+        }
+        .debug-entry { border-bottom: 1px solid #333; padding: 4px 0; }
+        .debug-error { color: #ff5555; } .debug-success { color: #55ff55; } .debug-info { color: #aaa; }
+        .list-container { margin-top: 20px; }
+        .card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
+        .card img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; margin-left: 15px; }
+        .card-info { flex:1; }
+        .card-actions button { margin-right: 5px; background: #eee; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+        .modal { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index:1000; }
+        .modal-content { background: white; border-radius: 16px; padding: 25px; width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; position: relative; }
+        .close { position: absolute; top: 10px; left: 15px; font-size: 24px; cursor: pointer; }
+    </style>
+</head>
+<body class="admin-body">
+    <button id="debugToggle" onclick="toggleDebug()">إظهار سجل التصحيح</button>
+
+    <div class="admin-header">
+        <h1>لوحة التحكم</h1>
+        <button onclick="logout()" class="btn-logout">تسجيل الخروج</button>
+    </div>
+    <div class="admin-tabs">
+        <button class="tab-btn active" onclick="showTab('products')">المنتجات</button>
+        <button class="tab-btn" onclick="showTab('services')">الخدمات</button>
+        <button class="tab-btn" onclick="showTab('categories')">الأقسام</button>
+        <button class="tab-btn" onclick="showTab('settings')">الإعدادات</button>
+        <button class="tab-btn" onclick="showTab('gallery')">المعرض</button>
+        <button class="tab-btn" onclick="showTab('pages')">الصفحات</button>
+    </div>
+
+    <!-- تبويب المنتجات -->
+    <div class="tab-content" id="tab-products">
+        <h2>المنتجات</h2>
+        <button class="btn-primary" onclick="openProductForm()">➕ إضافة منتج</button>
+        <div id="productsList" class="list-container"></div>
+
+        <div id="productFormModal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close" onclick="closeProductForm()">&times;</span>
+                <h3 id="productFormTitle">إضافة منتج جديد</h3>
+                <form id="productForm">
+                    <input type="hidden" id="prodId">
+                    <label>اسم المنتج</label>
+                    <input type="text" id="prodName" required>
+                    <label>التصنيف</label>
+                    <select id="prodCategory"></select>
+                    <label>السعر (ريال)</label>
+                    <input type="number" id="prodPrice">
+                    <label>الوصف</label>
+                    <textarea id="prodDesc" rows="3"></textarea>
+                    <label>رقم الواتساب للطلب</label>
+                    <input type="text" id="prodWhatsapp" placeholder="967xxxxxxxxx">
+                    <label>صورة المنتج</label>
+                    <div class="image-upload-area">
+                        <input type="file" id="prodImageFile" accept="image/*">
+                        <button type="button" id="uploadProdImageBtn" class="btn-secondary">رفع الصورة</button>
+                        <progress id="prodUploadProgress" value="0" max="100" style="display:none; width:100%;"></progress>
+                        <img id="prodImagePreview" src="#" alt="معاينة" style="display:none; max-width:200px;">
+                        <input type="hidden" id="prodImageUrl">
+                    </div>
+                    <button type="submit" class="btn-primary">حفظ</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- تبويب الخدمات -->
+    <div class="tab-content" id="tab-services" style="display:none;">
+        <h2>الخدمات</h2>
+        <button class="btn-primary" onclick="openServiceForm()">➕ إضافة خدمة</button>
+        <div id="servicesList" class="list-container"></div>
+        <!-- نموذج خدمة (مماثل للمنتج) -->
+        <div id="serviceFormModal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close" onclick="closeServiceForm()">&times;</span>
+                <h3>إضافة خدمة</h3>
+                <form id="serviceForm">
+                    <input type="hidden" id="servId">
+                    <label>اسم الخدمة</label><input type="text" id="servName" required>
+                    <label>التصنيف</label>
+                    <select id="servCategory"><option>صيانة</option><option>تركيب</option></select>
+                    <label>السعر</label><input type="number" id="servPrice">
+                    <label>الوصف</label><textarea id="servDesc" rows="3"></textarea>
+                    <label>صورة</label>
+                    <input type="file" id="servImageFile" accept="image/*">
+                    <button type="button" onclick="uploadServiceImage()">رفع</button>
+                    <img id="servPreview" src="#" style="display:none;max-width:200px;">
+                    <input type="hidden" id="servImageUrl">
+                    <button type="submit" class="btn-primary">حفظ</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- تبويب الأقسام (التصنيفات) -->
+    <div class="tab-content" id="tab-categories" style="display:none;">
+        <h2>الأقسام</h2>
+        <button class="btn-primary" onclick="openCategoryForm()">➕ إضافة قسم</button>
+        <div id="categoriesList" class="list-container"></div>
+        <!-- نموذج قسم -->
+        <div id="categoryFormModal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close" onclick="closeCategoryForm()">&times;</span>
+                <h3 id="catFormTitle">إضافة قسم جديد</h3>
+                <form id="categoryForm">
+                    <input type="hidden" id="catId">
+                    <label>اسم القسم</label><input type="text" id="catName" required>
+                    <label>الاسم اللاتيني (slug)</label><input type="text" id="catSlug" placeholder="men, women...">
+                    <label>الترتيب</label><input type="number" id="catOrder" value="0">
+                    <button type="submit" class="btn-primary">حفظ</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- تبويب الإعدادات -->
+    <div class="tab-content" id="tab-settings" style="display:none;">
+        <h2>إعدادات المتجر</h2>
+        <form id="settingsForm">
+            <div id="settingsFields"></div>
+            <button type="submit" class="btn-primary">حفظ جميع الإعدادات</button>
+        </form>
+        <div style="margin-top:20px;">
+            <label>شعار المتجر</label>
+            <input type="file" id="logoFile" accept="image/*">
+            <button type="button" id="uploadLogoBtn">رفع الشعار</button>
+            <img id="logoPreview" src="#" style="display:none;max-width:150px;">
+            <input type="hidden" id="logoUrl">
+        </div>
+    </div>
+
+    <!-- تبويب المعرض -->
+    <div class="tab-content" id="tab-gallery" style="display:none;">
+        <h2>معرض الصور</h2>
+        <button class="btn-primary" onclick="openGalleryForm()">➕ إضافة صورة</button>
+        <div id="galleryList" class="list-container gallery-grid"></div>
+        <div id="galleryFormModal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close" onclick="closeGalleryForm()">&times;</span>
+                <h3>إضافة صورة للمعرض</h3>
+                <form id="galleryForm">
+                    <input type="hidden" id="galId">
+                    <label>العنوان</label><input type="text" id="galTitle" required>
+                    <label>تصنيف</label><input type="text" id="galCategory">
+                    <label>الصورة</label>
+                    <input type="file" id="galImageFile" accept="image/*">
+                    <button type="button" onclick="uploadGalleryImage()">رفع</button>
+                    <img id="galPreview" src="#" style="display:none;max-width:200px;">
+                    <input type="hidden" id="galImageUrl">
+                    <button type="submit" class="btn-primary">حفظ</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- تبويب الصفحات -->
+    <div class="tab-content" id="tab-pages" style="display:none;">
+        <h2>الصفحات الثابتة</h2>
+        <div id="pagesList" class="list-container"></div>
+        <div id="pageEditModal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close" onclick="closePageForm()">&times;</span>
+                <h3>تعديل الصفحة</h3>
+                <form id="pageForm">
+                    <input type="hidden" id="pageId">
+                    <label>العنوان</label><input type="text" id="pageTitle" required>
+                    <label>المحتوى (HTML)</label><textarea id="pageContent" rows="10"></textarea>
+                    <label>وصف SEO</label><input type="text" id="pageMeta">
+                    <button type="submit" class="btn-primary">حفظ</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="debugArea"></div>
+    <script src="script.js"></script>
+</body>
+</html>

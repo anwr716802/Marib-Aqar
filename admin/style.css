@@ -1,0 +1,38 @@
+/* ========== تعديل الهوية البصرية للوحة الإدارة ========== */
+:root {
+    --primary-color: #0b1a30;     /* كحلي داكن فخم جداً */
+    --secondary-color: #c5a880;   /* ذهبي دافئ مصقول */
+    --accent-red: #c0392b;        /* لون التنبيهات والخروج */
+}
+
+.admin-header { 
+    background: var(--primary-color) !important; 
+    color: white; 
+    padding: 15px 20px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+}
+
+.tab-btn.active { 
+    background: var(--primary-color) !important; 
+    color: white; 
+}
+
+.btn-primary { 
+    background: var(--primary-color) !important; 
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    border-radius: 25px; 
+    cursor: pointer; 
+}
+
+.btn-logout { 
+    background: var(--accent-red); 
+    border: none; 
+    color: white; 
+    padding: 8px 16px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+}
