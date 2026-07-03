@@ -51,6 +51,12 @@
         </div>
     </div>
 
+    <div id="pwa-install-banner" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #fff; padding: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-radius: 8px; z-index: 1000; text-align: center;">
+    <p style="margin: 0 0 10px 0; font-family: sans-serif;">هل تريد تثبيت الموقع كتطبيق للوصول السريع؟</p>
+    <button id="install-pwa-btn" style="background: #007bff; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer;">تثبيت الآن</button>
+    <button onclick="document.getElementById('pwa-install-banner').style.display='none'" style="background: #ccc; color: black; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; margin-right: 5px;">لاحقاً</button>
+    </div>
+    
     <!-- Header -->
     <header class="site-header">
         <div class="container">
