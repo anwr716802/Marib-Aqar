@@ -253,7 +253,7 @@ a {
 
 
   /* 1. تحديد مسار صورة الشعار وتوسيطها */
-  background-image: linear-gradient(rgba(15, 32, 53, 0.85), rgba(15, 32, 53, 0.85)), url('../images/logo.png');
+  background-image: linear-gradient(rgba(15, 32, 53, 0.85), rgba(15, 32, 53, 0.85)), url('../assets/images/logo.png');
   background-size: contain; /* أو استخدم cover إذا كنت تريد الصورة تملأ المكان بالكامل */
   background-position: center;
   background-repeat: no-repeat;
