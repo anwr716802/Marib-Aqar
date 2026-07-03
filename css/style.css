@@ -243,14 +243,27 @@ a {
 
 /* ========== الهيرو الخلفية المتحركة ========== */
 .hero {
-    background: linear-gradient(-45deg, #1a252f, #2c3e50, #34495e, #2c3e50);
-    background-size: 400% 400%;
+    
     animation: gradientBG 15s ease infinite;
     color: white;
     padding: 100px 20px;
     text-align: center;
     border-radius: 0 0 40px 40px;
     box-shadow: var(--shadow-md);
+
+
+  /* 1. تحديد مسار صورة الشعار وتوسيطها */
+  background-image: linear-gradient(rgba(15, 32, 53, 0.85), rgba(15, 32, 53, 0.85)), url('../images/logo.png');
+  background-size: contain; /* أو استخدم cover إذا كنت تريد الصورة تملأ المكان بالكامل */
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  /* 2. الحفاظ على اللون الأبيض والأبعاد */
+  color: #ffffff;
+  position: relative;
+  padding: 60px 20px; /* يمكنك زيادة أو تقليل الحشو حسب رغبتك */
+    
+    
 }
 
 @keyframes gradientBG {
