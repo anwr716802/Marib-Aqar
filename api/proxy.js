@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   }
 
   // الرابط الأصلي لـ Google Apps Script (استبدله برابط النشر الفعلي)
-  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwcfGpl-iwjlIM8zSXFJkVEsbrrFEcDiKcEP4yXns8Lw3WAk_kWENAL4zFqu_YMNU4O8Q/exec';
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzyjvZ5jUKs8ysbkIOql8Aexpki2HXDgD6zkQ1MurmnQRmVodij8Tx9kwwEtPJaGM1s/exec';
 
   // بناء query string من الطلب الوارد
   const queryString = new URLSearchParams(req.query).toString();
