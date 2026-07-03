@@ -2,10 +2,10 @@
 
 // ==================== إعدادت المتجر ====================
 const CONFIG = {
-    storeName: 'متجر الأناقة للملابس',        
+    storeName: ' عقارات الشعب مارب ',        
     storeType: 'clothing',
     whatsapp: '967770569067',                 
-    googleMaps: 'https://maps.app.goo.gl/...',
+    googleMaps: 'https://maps.app.goo.gl/aa7o7pno7B1nFaKQ9',
     primaryColor: '#2c3e50',
     secondaryColor: '#c0392b',
     logo: 'assets/images/logo.png',
@@ -374,6 +374,58 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
 
+
+
+    let deferredPrompt;
+
+// 1. الاستماع لحدث المتصفح وتخزين الطلب
+window.addEventListener('beforeinstallprompt', (e) => {
+  // منع المتصفح من إظهار الإشعار التلقائي المزعج فوراً
+  e.preventDefault();
+  // حفظ الحدث لاستخدامه عند ضغط الزر
+  deferredPrompt = e;
+  
+  // إظهار البنر الخاص بنا للمستخدم
+  const installBanner = document.getElementById('pwa-install-banner');
+  if (installBanner) {
+    installBanner.style.display = 'block';
+  }
+});
+
+// 2. البرمجة عند الضغط على زر التثبيت
+const installBtn = document.getElementById('install-pwa-btn');
+if (installBtn) {
+  installBtn.addEventListener('click', async () => {
+    if (deferredPrompt) {
+      // إظهار نافذة التثبيت الرسمية الخاصة بالمتصفح
+      deferredPrompt.prompt();
+      
+      // معرفة قرار المستخدم
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        console.log('تم قبول التثبيت');
+        hideInstallBanner();
+      } else {
+        console.log('تم رفض التثبيت، سيظهر البنر في المرة القادمة');
+      }
+      deferredPrompt = null;
+    }
+  });
+}
+
+// دالة لإخفاء البنر
+function hideInstallBanner() {
+  const installBanner = document.getElementById('pwa-install-banner');
+  if (installBanner) installBanner.style.display = 'none';
+}
+
+// 3. إخفاء البنر إذا كان التطبيق مثبتاً بالفعل من قبل
+window.addEventListener('appinstalled', () => {
+  hideInstallBanner();
+  deferredPrompt = null;
+});
+
+    
     // 6. تشغيل مؤقت التحديث التلقائي الصامت كل 30 ثانية
     setInterval(async () => {
         await smartRefreshProducts();
