@@ -716,15 +716,67 @@ a {
 .cart-overlay.show { display: block; }
 
 /* ========== الفوتر والأزرار العائمة ========== */
+/* ========== الفوتر والأزرار العائمة (تعديل احترافي) ========== */
 .site-footer {
-    background: var(--primary-color);
-    color: white;
-    padding: 40px 0 0;
+    background: #0b1a30; /* كحلي داكن ملكي متناسق */
+    color: #e0e1dd;
+    padding: 50px 0 20px;
     margin-top: 60px;
     border-radius: 40px 40px 0 0;
+    direction: rtl;
 }
 
-.footer-grid { display: grid; grid-template-columns: 1fr; gap: 30px; }
+.footer-grid { 
+    display: grid; 
+    grid-template-columns: 1fr; 
+    gap: 40px; 
+    padding: 0 20px;
+}
+
+.footer-grid div h3 {
+    color: var(--secondary-color); /* لون ذهبي دافئ من متغيراتك */
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom: 8px;
+    display: inline-block;
+}
+
+.footer-grid div ul {
+    list-style: none; /* إزالة النقاط البشعة */
+    padding: 0;
+    margin: 0;
+}
+
+.footer-grid div ul li {
+    margin-bottom: 12px;
+}
+
+.footer-grid div ul li a {
+    color: #e0e1dd;
+    transition: color 0.3s ease;
+    font-weight: 600;
+}
+
+.footer-grid div ul li a:hover {
+    color: var(--secondary-color);
+}
+
+.footer-grid div p {
+    font-size: 0.95rem;
+    opacity: 0.85;
+    line-height: 1.8;
+}
+
+/* سطر الحقوق السفلي */
+.site-footer p:last-child {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(197, 168, 128, 0.15);
+    font-size: 0.85rem;
+    color: #a2a8d3;
+}
 
 .floating-whatsapp {
     position: fixed;
@@ -798,35 +850,55 @@ a {
 }
 
 /* تنسيق الاختيارات والفلاتر لتصبح كالمواقع العالمية */
+/* تنسيق الاختيارات والفلاتر (معدل ومتوسط تماماً للهاتف) */
 .category-filters {
     display: flex !important;
-    gap: 12px !important;
-    justify-content: center !important;
+    gap: 10px !important;
+    justify-content: center !important; /* التوسيط الأساسي */
+    align-items: center !important;
     flex-wrap: wrap !important;
     margin: 30px auto !important;
-    padding: 8px !important;
+    padding: 10px !important;
     background: rgba(11, 26, 48, 0.04) !important;
-    border-radius: 50px !important;
-    max-width: fit-content !important;
+    border-radius: 16px !important;
+    max-width: 92% !important; /* يتناسب مع أبعاد الجوال */
 }
 
 .filter-btn {
-    background: transparent !important;
+    background: #ffffff !important;
     color: #0b1a30 !important;
-    border: none !important;
-    padding: 10px 24px !important;
-    border-radius: 40px !important;
+    border: 1px solid rgba(11, 26, 48, 0.1) !important;
+    padding: 10px 18px !important;
+    border-radius: 12px !important;
     cursor: pointer !important;
-    font-size: 0.95rem !important;
+    font-size: 0.9rem !important;
     font-weight: 700 !important;
     transition: all 0.3s ease !important;
+    flex: 1 1 calc(50% - 10px); /* يضمن توزيع الأزرار بشكل متساوٍ ومتوسط في الجوال */
+    min-width: 130px !important;
+    text-align: center !important;
+    box-shadow: var(--shadow-sm);
 }
 
 .filter-btn.active {
     background: #0b1a30 !important;
     color: #c5a880 !important;
-    box-shadow: 0 4px 15px rgba(11, 26, 48, 0.2) !important;
+    border-color: #0b1a30 !important;
+    box-shadow: 0 4px 12px rgba(11, 26, 48, 0.15) !important;
 }
+
+@media (min-width: 769px) {
+    .filter-btn {
+        flex: none !important; /* إلغاء التمدد في الشاشات الكبيرة لتظل أنيقة */
+        border-radius: 40px !important;
+    }
+    .category-filters {
+        border-radius: 50px !important;
+        max-width: fit-content !important;
+    }
+}
+
+
 
 /* تنسيق العقارات لتبدو في عمودين متناسقين على الجوال */
 @media (max-width: 768px) {
@@ -875,5 +947,15 @@ a {
         text-align: center !important;
         padding: 8px 0 !important;
         font-size: 0.8rem !important;
+    }
+}
+
+/* ضبط توسيط نصوص الفوتر في الجوال */
+@media (max-width: 768px) {
+    .footer-grid {
+        text-align: center !important;
+    }
+    .footer-grid div h3 {
+        display: inline-block !important;
     }
 }
