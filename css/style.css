@@ -948,6 +948,15 @@ a {
         padding: 8px 0 !important;
         font-size: 0.8rem !important;
     }
+    .filter-btn {
+        flex: none !important; /* إلغاء التمدد في الشاشات الكبيرة لتظل أنيقة */
+        border-radius: 40px !important;
+    }
+    .category-filters {
+        border-radius: 50px !important;
+        max-width: fit-content !important;
+    }
+}
 }
 
 /* ضبط توسيط نصوص الفوتر في الجوال */
