@@ -1,4 +1,3 @@
-// ==================== الإعدادات 
 // ==================== الإعدادات ====================
 const API_BASE = '/api/proxy';
 const API_KEY ='mySecretKey123XYZ';   // نفس المفتاح في Code.gs
@@ -30,7 +29,7 @@ function toggleDebug() {
     document.getElementById('debugToggle').textContent =
         area.style.display === 'block' ? 'إخفاء السجل' : 'إظهار السجل';
 }
-addDebug('تم تحميل لوحة التحكم', 'info');
+addDebug('تم تحميل لوحة التحكم لمنصة العقارات', 'info');
 
 // ==================== التنقل ====================
 function showTab(name) {
@@ -99,24 +98,27 @@ function uploadImage(file, folder) {
     });
 }
 
-// ==================== المنتجات (موجودة) ====================
+// ==================== العقارات / العروض (موجودة) ====================
 async function loadProducts() {
     const data = await apiCall('getProducts');
     const list = document.getElementById('productsList');
-    if (!list || data.error || !Array.isArray(data)) { list.innerHTML = '<p>لا توجد منتجات</p>'; return; }
+    if (!list || data.error || !Array.isArray(data)) { list.innerHTML = '<p>لا توجد عقارات</p>'; return; }
     const rows = data.slice(1);
-    list.innerHTML = rows.map(r => `
-        <div class="card">
-            <img src="${r[5]}" alt="${r[1]}">
-            <div class="card-info"><strong>${r[1]}</strong><br>${r[2]} - ${r[3]} ريال</div>
-            <div class="card-actions">
-                <button onclick="editProduct('${r[0]}','${r[1]}','${r[2]}','${r[3]}','${r[4]}','${r[5]}','${r[6]}')">✏️</button>
-                <button onclick="deleteProduct('${r[0]}')">🗑️</button>
+    list.innerHTML = rows.map(r => {
+        // إذا كان هناك عدة صور مفصولة بفاصلة، نأخذ الصورة الأولى للعرض في لوحة التحكم فقط
+        const firstImg = r[5] ? r[5].split(',')[0] : '';
+        return `
+            <div class="card">
+                <img src="${firstImg}" alt="${r[1]}">
+                <div class="card-info"><strong>${r[1]}</strong><br>${r[2]} - ${r[3]} ريال</div>
+                <div class="card-actions">
+                    <button onclick="editProduct('${r[0]}','${r[1]}','${r[2]}','${r[3]}','${r[4]}','${r[5]}','${r[6]}')">✏️</button>
+                    <button onclick="deleteProduct('${r[0]}')">🗑️</button>
+                </div>
             </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 }
-// ... دوال product موجودة مسبقا (نفس الكود السابق، لم تتغير)
 
 // ==================== الخدمات ====================
 async function loadServices() {
@@ -128,7 +130,6 @@ async function loadServices() {
         <div class="card"><div class="card-info"><strong>${r[1]}</strong> - ${r[2]}</div>
         <div class="card-actions"><button>✏️</button><button>🗑️</button></div></div>`).join('');
 }
-// يمكنك إكمال دوال الخدمات بنفس نمط المنتجات (addService, edit, delete)
 
 // ==================== الأقسام (التصنيفات) ====================
 async function loadCategories() {
@@ -222,7 +223,6 @@ async function deleteGalleryImage(id) {
     await apiCall('deleteGalleryImage', { id });
     loadGallery();
 }
-// ... دوال galleryForm
 
 // ==================== الصفحات ====================
 async function loadPages() {
@@ -254,27 +254,35 @@ document.getElementById('pageForm').addEventListener('submit', async function(e)
     closePageForm();
     loadPages();
 });
-// ==================== دوال المنتجات الكاملة ====================
 
-// فتح نموذج إضافة منتج
+// ==================== دوال العقارات الكاملة ودعم رفع عدة صور ====================
+
+// فتح نموذج إضافة عقار
 function openProductForm() {
     document.getElementById('productFormModal').style.display = 'flex';
-    document.getElementById('productFormTitle').textContent = 'إضافة منتج جديد';
+    document.getElementById('productFormTitle').textContent = 'إضافة عقار جديد';
     document.getElementById('productForm').reset();
     document.getElementById('prodId').value = '';
     document.getElementById('prodImageUrl').value = '';
-    document.getElementById('prodImagePreview').style.display = 'none';
+    
+    // تفريغ حاوية المعاينة المتعددة
+    const previewContainer = document.getElementById('prodImagePreviewContainer') || document.getElementById('prodImagePreview');
+    if (previewContainer) {
+        previewContainer.innerHTML = '';
+        previewContainer.style.display = 'none';
+    }
+    
     document.getElementById('prodUploadProgress').style.display = 'none';
     loadCategoriesForSelect('prodCategory');
-    addDebug('تم فتح نموذج إضافة منتج', 'info');
+    addDebug('تم فتح نموذج إضافة عقار', 'info');
 }
 
-// إغلاق نموذج المنتج
+// إغلاق نموذج العقار
 function closeProductForm() {
     document.getElementById('productFormModal').style.display = 'none';
 }
 
-// تعديل منتج
+// تعديل عقار
 function editProduct(id, name, cat, price, desc, img, wa) {
     openProductForm();
     document.getElementById('prodId').value = id;
@@ -284,25 +292,44 @@ function editProduct(id, name, cat, price, desc, img, wa) {
     document.getElementById('prodDesc').value = desc;
     document.getElementById('prodWhatsapp').value = wa;
     document.getElementById('prodImageUrl').value = img;
+    
     if (img) {
-        document.getElementById('prodImagePreview').src = img;
-        document.getElementById('prodImagePreview').style.display = 'block';
+        const previewContainer = document.getElementById('prodImagePreviewContainer') || document.getElementById('prodImagePreview');
+        if (previewContainer) {
+            previewContainer.innerHTML = ''; // تصفير الحاوية أولاً
+            // فصل الروابط إذا كانت متعددة وعرضها جميعاً
+            const urls = img.split(',');
+            urls.forEach(url => {
+                if(url.trim()) {
+                    const imgTag = document.createElement('img');
+                    imgTag.src = url.trim();
+                    imgTag.style.width = '80px';
+                    imgTag.style.height = '80px';
+                    imgTag.style.objectFit = 'cover';
+                    imgTag.style.borderRadius = '6px';
+                    imgTag.style.margin = '5px';
+                    previewContainer.appendChild(imgTag);
+                }
+            });
+            previewContainer.style.display = 'flex';
+            previewContainer.style.flexWrap = 'wrap';
+        }
     }
-    document.getElementById('productFormTitle').textContent = 'تعديل المنتج';
-    addDebug('تعديل المنتج: ' + name, 'info');
+    document.getElementById('productFormTitle').textContent = 'تعديل العقار';
+    addDebug('تعديل العقار: ' + name, 'info');
 }
 
-// حذف منتج
+// حذف عقار
 async function deleteProduct(id) {
-    if (!confirm('هل أنت متأكد من حذف هذا المنتج؟')) return;
+    if (!confirm('هل أنت متأكد من حذف هذا العقار؟')) return;
     const res = await apiCall('deleteProduct', { id });
     if (!res.error) {
-        addDebug('تم حذف المنتج', 'success');
+        addDebug('تم حذف العقار', 'success');
         loadProducts();
     }
 }
 
-// تحميل التصنيفات في قائمة المنتج المنسدلة
+// تحميل التصنيفات في قائمة العقار المنسدلة
 async function loadCategoriesForSelect(selectId) {
     const select = document.getElementById(selectId);
     if (!select) {
@@ -311,10 +338,10 @@ async function loadCategoriesForSelect(selectId) {
     }
     
     const defaultCategories = [
-        { name: 'رجالي', slug: 'men' },
-        { name: 'نسائي', slug: 'women' },
-        { name: 'أطفال', slug: 'kids' },
-        { name: 'عروض', slug: 'offers' }
+        { name: 'أراضي', slug: 'lands' },
+        { name: 'شقق', slug: 'apartments' },
+        { name: 'فلل وبيوت', slug: 'villas' },
+        { name: 'عروض حصرية', slug: 'offers' }
     ];
 
     try {
@@ -323,7 +350,7 @@ async function loadCategoriesForSelect(selectId) {
             const rows = data.slice(1);
             const categories = rows.map(row => ({ name: row[1], slug: row[2] }));
             populateSelect(select, categories);
-            addDebug('تم تحميل التصنيفات من Google Sheets', 'success');
+            addDebug('تم تحميل التصنيفات العقارية بنجاح', 'success');
             return;
         }
     } catch (err) {
@@ -331,7 +358,7 @@ async function loadCategoriesForSelect(selectId) {
     }
     
     populateSelect(select, defaultCategories);
-    addDebug('تم استخدام التصنيفات الافتراضية', 'info');
+    addDebug('تم استخدام التصنيفات الافتراضية للعقارات', 'info');
 }
 
 // ملء قائمة منسدلة
@@ -341,41 +368,71 @@ function populateSelect(select, categories) {
     ).join('');
 }
 
-// رفع صورة المنتج (بالنقر على زر الرفع)
-document.addEventListener('click', function(e) {
+// رفع صور العقار (تدعم رفع وتحديث أكثر من صورة في نفس الوقت)
+document.addEventListener('click', async function(e) {
     if (e.target && e.target.id === 'uploadProdImageBtn') {
         e.preventDefault();
         const fileInput = document.getElementById('prodImageFile');
         const files = fileInput.files;
         addDebug(`عدد الملفات المختارة: ${files.length}`, 'info');
         if (files.length === 0) {
-            alert('اختر صورة أولاً');
+            alert('اختر صورة واحدة أو أكثر أولاً');
             return;
         }
-        const file = files[0];
+        
         const category = document.getElementById('prodCategory').value;
         let folder = 'marib-store/products/other';
-        if (category === 'رجالي') folder = 'marib-store/products/men';
-        else if (category === 'نسائي') folder = 'marib-store/products/women';
-        else if (category === 'أطفال') folder = 'marib-store/products/kids';
-        else if (category === 'عروض') folder = 'marib-store/products/offers';
+        if (category === 'أراضي' || category === 'رجالي') folder = 'marib-store/products/lands';
+        else if (category === 'شقق' || category === 'نسائي') folder = 'marib-store/products/apartments';
+        else if (category === 'فلل وبيوت' || category === 'أطفال') folder = 'marib-store/products/villas';
+        else if (category === 'عروض حصرية' || category === 'عروض') folder = 'marib-store/products/offers';
         
         addDebug(`المجلد المستهدف: ${folder}`, 'info');
-        addDebug(`بدء رفع: ${file.name} (${file.size} bytes)`, 'info');
         
-        uploadImage(file, folder).then(url => {
-            document.getElementById('prodImageUrl').value = url;
-            document.getElementById('prodImagePreview').src = url;
-            document.getElementById('prodImagePreview').style.display = 'block';
-            addDebug(`تم تعيين رابط الصورة: ${url}`, 'success');
-        }).catch(err => {
-            addDebug(`فشل الرفع: ${err}`, 'error');
-            alert('خطأ في رفع الصورة: ' + err);
-        });
+        const uploadedUrls = [];
+        const previewContainer = document.getElementById('prodImagePreviewContainer') || document.getElementById('prodImagePreview');
+        if (previewContainer) {
+            previewContainer.innerHTML = ''; 
+            previewContainer.style.display = 'flex';
+            previewContainer.style.flexWrap = 'wrap';
+        }
+
+        // الحلقات التكرارية لرفع كل ملف على حدة وإضافته للمصفوفة
+        for(let i = 0; i < files.length; i++) {
+            const file = files[i];
+            addDebug(`بدء رفع الملف ${i+1}: ${file.name} (${file.size} bytes)`, 'info');
+            try {
+                const url = await uploadImage(file, folder);
+                uploadedUrls.push(url);
+                
+                // إضافة معاينة لكل صورة يتم رفعها بنجاح فوراً
+                if (previewContainer) {
+                    const imgTag = document.createElement('img');
+                    imgTag.src = url;
+                    imgTag.style.width = '80px';
+                    imgTag.style.height = '80px';
+                    imgTag.style.objectFit = 'cover';
+                    imgTag.style.borderRadius = '6px';
+                    imgTag.style.margin = '5px';
+                    previewContainer.appendChild(imgTag);
+                }
+                addDebug(`نجح رفع الملف ${i+1}: ${url}`, 'success');
+            } catch (err) {
+                addDebug(`فشل رفع الملف ${i+1} (${file.name}): ${err}`, 'error');
+            }
+        }
+
+        if (uploadedUrls.length > 0) {
+            // دمج كل الروابط الناتجة وفصلها بفاصلة لتخزينها في خلية واحدة بالسيرفر
+            document.getElementById('prodImageUrl').value = uploadedUrls.join(',');
+            alert(`تم رفع (${uploadedUrls.length}) من الصور بنجاح!`);
+        } else {
+            alert('فشل رفع الصور، يرجى المحاولة مجدداً');
+        }
     }
 });
 
-// حفظ المنتج
+// حفظ العقار
 document.getElementById('productForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     const product = {
@@ -392,29 +449,31 @@ document.getElementById('productForm').addEventListener('submit', async function
     addDebug(`Payload: ${JSON.stringify(product)}`, 'info');
     
     if (!product.name) {
-        addDebug('اسم المنتج فارغ', 'error');
-        alert('الرجاء إدخال اسم المنتج');
+        addDebug('اسم العقار فارغ', 'error');
+        alert('الرجاء إدخال اسم العقار المعروض');
         return;
     }
     if (!product.image_url) {
         addDebug('رابط الصورة فارغ', 'error');
-        alert('الرجاء رفع صورة المنتج أولاً');
+        alert('الرجاء رفع صورة أو مخططات العقار أولاً');
         return;
     }
     if (!product.category) {
-        addDebug('التصنيف غير محدد', 'error');
-        alert('الرجاء اختيار تصنيف');
+        addDebug('القسم غير محدد', 'error');
+        alert('الرجاء اختيار قسم عقاري');
         return;
     }
 
     const action = id ? 'updateProduct' : 'addProduct';
     const res = await apiCall(action, product);
     if (!res.error) {
-        addDebug('تم الحفظ بنجاح', 'success');
+        addDebug('تم حفظ العقار بنجاح', 'success');
         closeProductForm();
         loadProducts();
     }
 });
+
 // ==================== عام ====================
 function logout() { sessionStorage.removeItem('adminAuth'); window.location.href = 'login.html'; }
 showTab('products');
+        
