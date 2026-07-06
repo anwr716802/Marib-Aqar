@@ -476,4 +476,145 @@ document.getElementById('productForm').addEventListener('submit', async function
 // ==================== عام ====================
 function logout() { sessionStorage.removeItem('adminAuth'); window.location.href = 'login.html'; }
 showTab('products');
+
+
+// ==================== تفعيل دوال الخدمات بالكامل ====================
+
+// فتح نموذج إضافة/تعديل خدمة
+function openServiceForm() {
+    const modal = document.getElementById('serviceFormModal');
+    if (modal) {
+        modal.style.display = 'flex';
+        document.getElementById('serviceForm').reset();
+        document.getElementById('servId').value = '';
+        document.getElementById('servImageUrl').value = '';
+        if(document.getElementById('servPreview')) document.getElementById('servPreview').style.display = 'none';
+        addDebug('تم فتح نموذج الخدمات', 'info');
+    }
+}
+
+// إغلاق نموذج الخدمة
+function closeServiceForm() {
+    const modal = document.getElementById('serviceFormModal');
+    if (modal) modal.style.display = 'none';
+}
+
+// دالة رفع صورة الخدمة
+async function uploadServiceImage() {
+    const fileInput = document.getElementById('servImageFile');
+    if (!fileInput || fileInput.files.length === 0) {
+        alert('الرجاء اختيار صورة للخدمة أولاً');
+        return;
+    }
+    addDebug('بدء رفع صورة الخدمة...', 'info');
+    try {
+        const url = await uploadImage(fileInput.files[0], 'marib-store/services');
+        document.getElementById('servImageUrl').value = url;
+        const preview = document.getElementById('servPreview');
+        if (preview) {
+            preview.src = url;
+            preview.style.display = 'block';
+        }
+        addDebug('تم رفع صورة الخدمة بنجاح', 'success');
+        alert('تم رفع الصورة بنجاح');
+    } catch (err) {
+        addDebug('فشل رفع صورة الخدمة: ' + err, 'error');
+        alert('خطأ في الرفع: ' + err);
+    }
+}
+
+// مستمع الحدث لحفظ نموذج الخدمة عند الإرسال
+if (document.getElementById('serviceForm')) {
+    document.getElementById('serviceForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const service = {
+            name: document.getElementById('servName').value.trim(),
+            category: document.getElementById('servCategory').value,
+            price: document.getElementById('servPrice').value.trim(),
+            description: document.getElementById('servDesc').value.trim(),
+            image_url: document.getElementById('servImageUrl').value.trim()
+        };
+        const id = document.getElementById('servId').value;
+        if (id) service.id = id;
+
+        if (!service.name) return alert('الرجاء إدخال اسم الخدمة');
+
+        const action = id ? 'updateService' : 'addService';
+        const res = await apiCall(action, service);
+        if (!res.error) {
+            addDebug('تم حفظ الخدمة بنجاح', 'success');
+            closeServiceForm();
+            loadServices();
+        }
+    });
+}
+
+
+// ==================== تفعيل دوال معرض الصور بالكامل ====================
+
+// فتح نموذج إضافة صورة للمعرض
+function openGalleryForm() {
+    const modal = document.getElementById('galleryFormModal');
+    if (modal) {
+        modal.style.display = 'flex';
+        document.getElementById('galleryForm').reset();
+        document.getElementById('galId').value = '';
+        document.getElementById('galImageUrl').value = '';
+        if(document.getElementById('galPreview')) document.getElementById('galPreview').style.display = 'none';
+        addDebug('تم فتح نموذج المعرض', 'info');
+    }
+}
+
+// إغلاق نموذج المعرض
+function closeGalleryForm() {
+    const modal = document.getElementById('galleryFormModal');
+    if (modal) modal.style.display = 'none';
+}
+
+// دالة رفع صورة المعرض
+async function uploadGalleryImage() {
+    const fileInput = document.getElementById('galImageFile');
+    if (!fileInput || fileInput.files.length === 0) {
+        alert('الرجاء اختيار صورة لرفعها للمعرض أولاً');
+        return;
+    }
+    addDebug('بدء رفع صورة المعرض...', 'info');
+    try {
+        const url = await uploadImage(fileInput.files[0], 'marib-store/gallery');
+        document.getElementById('galImageUrl').value = url;
+        const preview = document.getElementById('galPreview');
+        if (preview) {
+            preview.src = url;
+            preview.style.display = 'block';
+        }
+        addDebug('تم رفع صورة المعرض بنجاح', 'success');
+        alert('تم رفع الصورة بنجاح');
+    } catch (err) {
+        addDebug('فشل رفع صورة المعرض: ' + err, 'error');
+        alert('خطأ في الرفع: ' + err);
+    }
+}
+
+// مستمع الحدث لحفظ صورة المعرض عند الإرسال
+if (document.getElementById('galleryForm')) {
+    document.getElementById('galleryForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const galleryData = {
+            title: document.getElementById('galTitle').value.trim(),
+            category: document.getElementById('galCategory').value.trim(),
+            image_url: document.getElementById('galImageUrl').value.trim()
+        };
+        
+        if (!galleryData.title) return alert('الرجاء إدخال عنوان الصورة');
+        if (!galleryData.image_url) return alert('الرجاء رفع الصورة أولاً');
+
+        const res = await apiCall('addGalleryImage', galleryData);
+        if (!res.error) {
+            addDebug('تم إضافة الصورة للمعرض بنجاح', 'success');
+            closeGalleryForm();
+            loadGallery();
+        }
+    });
+}
+
         
