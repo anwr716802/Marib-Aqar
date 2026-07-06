@@ -223,6 +223,7 @@ function renderProductsDOM(products, containerId) {
             }
             return `
             <div class="product-card" onclick="openProductModal('${product.id}')">
+            
                 <div class="product-card-image-wrapper">
                     <img src="${firstImg}" alt="${product.name}" loading="lazy">
                 </div>
