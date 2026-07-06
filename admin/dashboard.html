@@ -68,11 +68,15 @@
                     <input type="text" id="prodWhatsapp" placeholder="967xxxxxxxxx">
                     <label>صورة المنتج</label>
                     <div class="image-upload-area">
-                        <input type="file" id="prodImageFile" accept="image/*">
-                        <button type="button" id="uploadProdImageBtn" class="btn-secondary">رفع الصورة</button>
-                        <progress id="prodUploadProgress" value="0" max="100" style="display:none; width:100%;"></progress>
-                        <img id="prodImagePreview" src="#" alt="معاينة" style="display:none; max-width:200px;">
-                        <input type="hidden" id="prodImageUrl">
+                        <input type="file" id="prodImageFile" accept="image/*" multiple>
+<button type="button" id="uploadProdImageBtn" class="btn-secondary">رفع الصور</button>
+<progress id="prodUploadProgress" value="0" max="100" style="display:none; width:100%;"></progress>
+
+<!-- تم تغيير هذا السطر ليصبح حاوية لعرض معاينة الصور المتعددة -->
+<div id="prodImagePreviewContainer" style="display:none; gap:10px; margin-top:10px; flex-wrap: wrap;"></div>
+
+ <input type="hidden" id="prodImageUrl">
+
                     </div>
                     <button type="submit" class="btn-primary">حفظ</button>
                 </form>
