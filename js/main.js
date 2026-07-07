@@ -350,7 +350,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             let filtered = localProductsCache;
             if (currentActiveCategory !== 'all') {
-                const categoryMap = { men: 'رجالي', women: 'نسائي', kids: 'أطفال', offers: 'عروض' };
+                            const categoryMap = { 
+                men: 'أراضي سكنية وتجارية', 
+                women: 'شقق وعقارات للإيجار', 
+                kids: 'بيوت وفلل للبيع', 
+                offers: 'العروض الحصرية' 
+            };
+
                 const targetCategory = categoryMap[currentActiveCategory] || currentActiveCategory;
                 filtered = localProductsCache.filter(p => p.category === targetCategory);
             }
