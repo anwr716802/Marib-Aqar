@@ -49,16 +49,16 @@
     
     <script src="js/main.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            loadAllProducts('all');
+                document.addEventListener('DOMContentLoaded', () => {
+            // الفلترة والتحميل يتم إدارتها الآن تلقائياً عبر نظام الكاش المدمج في main.js
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
-                    loadAllProducts(this.dataset.category);
                 });
             });
         });
+
     </script>
     
     <!-- تحسين بيانات السيو المهيكلة لتلائم طبيعة العقارات -->
