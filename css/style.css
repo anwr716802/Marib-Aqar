@@ -486,6 +486,13 @@ a {
 .modal-image-panel {
     background: #f8f9fa;
     position: relative;
+    overflow: hidden;
+    height: 300px;
+}
+/*
+.modal-image-panel {
+    background: #f8f9fa;
+    position: relative;
     padding-top: 90%;
 }
 
@@ -495,8 +502,15 @@ a {
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: contain; /* يعرض الصورة كاملة بدون قص لتكبير مثالي */
+    object-fit: contain; /* يعرض الصورة كاملة بدون قص لتكبير مثالي 
     padding: 10px;
+}
+*/
+.modal-slides-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    flex-shrink: 0;
 }
 
 .modal-details-panel {
