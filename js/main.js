@@ -39,7 +39,7 @@ function showToast(message) {
 // ==================== نظام تكبير وعرض كروت العقارات السريع (العالمي) ====================
 function openProductModal(id) {
     // البحث عن تفاصيل المنتج داخل الذاكرة المحلية المخزنة مسبقاً
-    const product = localProductsCache.find(p => p.id === id);
+    const product = localProductsCache.find(p => String(p.id) === String(id));
     if (!product) return;
 
     const modalOverlay = document.getElementById('productQuickModal');
@@ -147,7 +147,7 @@ function setModalSlide(index) {
 
 function updateSliderDOM(container, total) {
     // إزاحة المعرض يميناً ويساراً بناءً على مؤشر الصورة الحالية
-    container.style.transform = `translateX(${currentSliderIndex * 100}%)`;
+    container.style.transform = `translateX(-${currentSliderIndex * 100}%)`;
     
     // تحديث النقاط النشطة السفلى (dots)
     const dots = document.querySelectorAll('.slider-dot');
