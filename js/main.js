@@ -61,9 +61,10 @@ function openProductModal(id) {
         <div class="product-modal-container" onclick="event.stopPropagation()">
             <button class="modal-close-trigger" onclick="closeProductModal()">✕</button>
             <div class="modal-image-panel" style="position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #f9f9f9; min-height: 300px;">
-                <div class="modal-slides-container" style="display: flex; transition: transform 0.5s ease; width: 100%; height: 100%;">
-                    ${imagesArray.map(img => `<img src="${img}" alt="${product.name}" style="width: 100%; object-fit: contain; flex-shrink: 0; max-height: 450px;">`).join('')}
+                <div class="modal-slides-container" style="display: flex; transition: transform 0.5s ease; width: ${imagesArray.length * 100}%; height: 100%; direction:ltr;">
+                 ${imagesArray.map(img => `<img src="${img}" alt="${product.name}" style="width: ${100 / imagesArray.length}%; object-fit: contain; flex-shrink: 0; max-height: 450px;">`).join('')}
                 </div>
+                
                 
                 ${imagesArray.length > 1 ? `
                     <button class="slider-nav-btn prev" onclick="changeModalSlide(-1)" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; z-index: 10;">❯</button>
@@ -147,7 +148,8 @@ function setModalSlide(index) {
 
 function updateSliderDOM(container, total) {
     // إزاحة المعرض يميناً ويساراً بناءً على مؤشر الصورة الحالية
-    container.style.transform = `translateX(-${currentSliderIndex * 100}%)`;
+    container.style.transform = `translateX(${currentSliderIndex * -100}%)`;
+container.style.direction = "ltr";
     
     // تحديث النقاط النشطة السفلى (dots)
     const dots = document.querySelectorAll('.slider-dot');
