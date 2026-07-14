@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 Disallow: /admin/
-Sitemap: https://marib-aqar.vercel.app/api/sitemap
+Sitemap: https://marib-aqar.vercel.app/sitemap.xml
