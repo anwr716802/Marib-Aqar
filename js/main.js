@@ -290,7 +290,7 @@ function checkIncomingShare(allProducts) {
 // دالة مشاركة العقار وبناء الرابط الفريد ليرسله المستخدم للواتساب
 function shareProduct(id, name) {
     const currentUrl = window.location.origin + window.location.pathname;
-    const shareLink = `${currentUrl}?id=${id}`;
+    const shareLink = `${window.location.origin}/property.html?id=${id}`;
 
     if (navigator.share) {
         navigator.share({
