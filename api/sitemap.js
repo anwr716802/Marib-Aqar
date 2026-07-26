@@ -21,7 +21,7 @@ export default async function handler(req, res) {
     </url>
 
     <url>
-      <loc>https://marib-aqar.vercel.app/products.html</loc>
+      <loc>https://marib-aqar.vercel.app/property.html?id=${id}</loc>
       <priority>0.9</priority>
     </url>
     `;
