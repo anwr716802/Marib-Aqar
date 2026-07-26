@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title id="metaTitle">تفاصيل العقار | عقارات الشعب مأرب</title>
+<meta name="description" id="metaDescription" content="تفاصيل العقار في مأرب">
+
+<meta property="og:title" id="ogTitle" content="">
+<meta property="og:description" id="ogDescriptionDynamic" content="">
+<meta property="og:image" id="ogImage" content="">
+<meta property="og:type" content="article">
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header class="site-header">
+    <div class="container">
+        <a href="index.html" class="logo">
+            <span class="store-name">عقارات الشعب مأرب</span>
+        </a>
+    </div>
+</header>
+
+<main class="container" style="padding:20px">
+
+    <h1 id="title">تحميل...</h1>
+    <img id="image" style="width:100%;max-height:400px;object-fit:cover;margin:15px 0;">
+    <h2 id="price"></h2>
+    <p id="desc"></p>
+
+    <a id="whatsappBtn" target="_blank" style="display:block;margin-top:20px;background:#25d366;color:#fff;padding:12px;text-align:center;border-radius:8px;">
+        تواصل واتساب
+    </a>
+
+</main>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+if (id) {
+    fetch("/api/proxy?action=getProducts")
+    .then(res => res.json())
+    .then(data => {
+
+        const rows = data.slice(1);
+        const product = rows.find(p => String(p[0]) === id);
+
+        if (!product) return;
+
+        const name = product[1];
+        const price = product[3];
+        const desc = product[4];
+        const images = product[5] ? product[5].split(",") : [];
+        const image = images[0] || "";
+        const whatsapp = product[6] || "967770569067";
+
+        // عرض البيانات
+        document.getElementById("title").textContent = name;
+        document.getElementById("price").textContent = price + " ريال";
+        document.getElementById("desc").textContent = desc;
+        document.getElementById("image").src = image;
+
+        document.getElementById("whatsappBtn").href =
+            "https://wa.me/" + whatsapp + "?text=" +
+            encodeURIComponent("استفسار عن: " + name + " " + window.location.href);
+
+        // SEO مهم جداً
+        document.title = name + " | عقارات الشعب مأرب";
+
+        document.getElementById("metaDescription").setAttribute(
+            "content",
+            desc + " السعر: " + price
+        );
+
+        document.getElementById("ogTitle").setAttribute("content", name);
+        document.getElementById("ogDescriptionDynamic").setAttribute("content", desc);
+
+        if (image) {
+            document.getElementById("ogImage").setAttribute("content", image);
+        }
+
+    });
+}
+</script>
+
+</body>
+</html>
