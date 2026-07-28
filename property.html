@@ -27,65 +27,86 @@
 
 <main class="container" style="padding:20px">
 
-    <h1 id="title">تحميل...</h1>
+    <h1 id="title">جاري تحميل العقار...</h1>
     <img id="image" style="width:100%;max-height:400px;object-fit:cover;margin:15px 0;">
     <h2 id="price"></h2>
     <p id="desc"></p>
 
-    <a id="whatsappBtn" target="_blank" style="display:block;margin-top:20px;background:#25d366;color:#fff;padding:12px;text-align:center;border-radius:8px;">
+    <a id="whatsappBtn" target="_blank"
+       style="display:block;margin-top:20px;background:#25d366;color:#fff;padding:12px;text-align:center;border-radius:8px;">
         تواصل واتساب
     </a>
 
 </main>
 
 <script>
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id");
+document.addEventListener("DOMContentLoaded", () => {
 
-if (id) {
+    // ✅ تعريف id بشكل آمن
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    if (!id) {
+        document.getElementById("title").textContent = "لم يتم تحديد العقار";
+        return;
+    }
+
     fetch("/api/proxy?action=getProducts")
     .then(res => res.json())
     .then(data => {
 
+        if (!Array.isArray(data)) {
+            document.getElementById("title").textContent = "خطأ في تحميل البيانات";
+            return;
+        }
+
         const rows = data.slice(1);
-        const product = rows.find(p => String(p[0]) === id);
+        const product = rows.find(p => String(p[0]) === String(id));
 
-        if (!product) return;
+        if (!product) {
+            document.getElementById("title").textContent = "العقار غير موجود";
+            return;
+        }
 
-        const name = product[1];
-        const price = product[3];
-        const desc = product[4];
+        const name = product[1] || "بدون اسم";
+        const price = product[3] || "غير محدد";
+        const desc = product[4] || "لا يوجد وصف";
         const images = product[5] ? product[5].split(",") : [];
-        const image = images[0] || "";
+        const image = images[0] || "assets/images/logo.png";
         const whatsapp = product[6] || "967770569067";
 
-        // عرض البيانات
+        // ✅ عرض البيانات
         document.getElementById("title").textContent = name;
         document.getElementById("price").textContent = price + " ريال";
         document.getElementById("desc").textContent = desc;
         document.getElementById("image").src = image;
 
+        // ✅ زر واتساب
         document.getElementById("whatsappBtn").href =
             "https://wa.me/" + whatsapp + "?text=" +
             encodeURIComponent("استفسار عن: " + name + " " + window.location.href);
 
-        // SEO مهم جداً
-        document.title = name + " | عقارات الشعب مأرب";
+        // ✅ SEO
+        const fullTitle = name + " | عقارات الشعب مأرب";
+        document.title = fullTitle;
+
+        document.getElementById("metaTitle").innerText = fullTitle;
 
         document.getElementById("metaDescription").setAttribute(
             "content",
-            desc + " السعر: " + price
+            desc + " | السعر: " + price + " ريال"
         );
 
-        document.getElementById("ogTitle").setAttribute("content", name);
+        document.getElementById("ogTitle").setAttribute("content", fullTitle);
         document.getElementById("ogDescriptionDynamic").setAttribute("content", desc);
+        document.getElementById("ogImage").setAttribute("content", image);
 
-        if (image) {
-            document.getElementById("ogImage").setAttribute("content", image);
-        }
-
+    })
+    .catch(() => {
+        document.getElementById("title").textContent = "فشل تحميل العقار";
     });
-}
+
+});
 </script>
 
 </body>
