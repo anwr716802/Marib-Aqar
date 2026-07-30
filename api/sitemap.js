@@ -21,11 +21,10 @@ export default async function handler(req, res) {
     </url>
 
     <url>
-      <loc>https://marib-aqar.vercel.app/property.html?id=${id}</loc>
+      <loc>https://marib-aqar.vercel.app/products.html</loc>
       <priority>0.9</priority>
     </url>
     `;
-
 
     products.forEach(product => {
 
@@ -33,7 +32,7 @@ export default async function handler(req, res) {
 
       urls += `
       <url>
-        <loc>https://marib-aqar.vercel.app/products.html?id=${id}</loc>
+        <loc>https://marib-aqar.vercel.app/api/property?id=${id}</loc>
         <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
@@ -42,17 +41,14 @@ export default async function handler(req, res) {
 
     });
 
-
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls}
 </urlset>`;
 
-
-    res.setHeader('Content-Type', 'application/xml');
+    res.setHeader('Content-Type', 'text/xml');
 
     res.status(200).send(sitemap);
-
 
   } catch(error){
 
